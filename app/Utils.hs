@@ -1,10 +1,13 @@
-module Utils ( InputParser(parseInput), solvePuzzle, solvePuzzle' ) where
+module Utils ( InputParser(parseInput), parseLines, solvePuzzle, solvePuzzle' ) where
 
 class InputParser a where
     parseInput :: String -> a
 
 instance (InputParser a, InputParser b) => InputParser (a,b) where
     parseInput st = (parseInput st, parseInput st)
+
+parseLines :: (InputParser a) => [String] -> a
+parseLines = parseInput . unlines
 
 getInput :: Int -> IO String
 getInput day = readFile $ "inputs/day" ++ show day ++ ".inp"
