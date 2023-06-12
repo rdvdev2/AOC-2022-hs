@@ -56,3 +56,7 @@ executable day6
 executable day7
     import:           common-options
     main-is:          Day7.hs
+
+executable day8
+    import:           common-options
+    main-is:          Day8.hs
