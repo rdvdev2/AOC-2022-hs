@@ -66,3 +66,10 @@ executables:
     main: Day9.hs
     other-modules: Utils
     dependencies: mtl
+
+tests:
+  output-test:
+    source-dirs: tests
+    main: OutputTest.hs
+    other-modules: []
+    dependencies: [bytestring, typed-process]
