@@ -1,0 +1,28 @@
+cradle:
+  cabal:
+    - path: "./app/Day1.hs"
+      component: "AOC2022-hs:exe:day1"
+
+    - path: "./app/Day2.hs"
+      component: "AOC2022-hs:exe:day2"
+
+    - path: "./app/Day3.hs"
+      component: "AOC2022-hs:exe:day3"
+
+    - path: "./app/Day4.hs"
+      component: "AOC2022-hs:exe:day4"
+
+    - path: "./app/Day5.hs"
+      component: "AOC2022-hs:exe:day5"
+
+    - path: "./app/Day6.hs"
+      component: "AOC2022-hs:exe:day6"
+
+    - path: "./app/Day7.hs"
+      component: "AOC2022-hs:exe:day7"
+
+    - path: "./app/Day8.hs"
+      component: "AOC2022-hs:exe:day8"
+
+    - path: "./app/Day9.hs"
+      component: "AOC2022-hs:exe:day9"
