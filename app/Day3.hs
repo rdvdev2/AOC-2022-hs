@@ -1,7 +1,7 @@
 module Main where
 
 import Data.Char
-import Data.List
+import Data.List ( intersect, union )
 
 import Utils
 
@@ -14,10 +14,10 @@ type ElveGroup = (Rucksack,Rucksack,Rucksack)
 
 instance InputParser Rucksack where
     parseInput st = Rucksack (take l st) (drop l st)
-        where l = (length st) `div` 2
+        where l = length st `div` 2
 
 instance InputParser Rucksacks where
-    parseInput = Rucksacks . (map parseInput)  . lines
+    parseInput = Rucksacks . map parseInput  . lines
 
 main :: IO ()
 main = solvePuzzle 3 solver
@@ -28,7 +28,7 @@ solver rucksacks = ( sum . map (itemPriority . sharedItem) $ toRucksackList ruck
                    )
 
 sharedItem :: Rucksack -> Item
-sharedItem (Rucksack c1 c2) = head (intersect c1 c2)
+sharedItem (Rucksack c1 c2) = head (c1 `intersect` c2)
 
 itemPriority :: Item -> Priority
 itemPriority x
@@ -42,10 +42,10 @@ elveGroups (Rucksacks (x:y:z:xs)) = (x,y,z) : elveGroups (Rucksacks xs)
 elveGroups _ = undefined
 
 allItems :: Rucksack -> [Item]
-allItems (Rucksack c1 c2) = union c1 c2
+allItems (Rucksack c1 c2) = c1 `union` c2
 
 badge :: ElveGroup -> Item
 badge (x,y,z) = let x' = allItems x
                     y' = allItems y
                     z' = allItems z
-                in  head $ intersect x' (intersect y' z')
+                in  head $ x' `intersect` y' `intersect` z'

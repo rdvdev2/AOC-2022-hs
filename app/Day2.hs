@@ -21,7 +21,7 @@ main = solvePuzzle' 2 solver
 solver :: Game -> Strategy -> (Points,Points)
 solver game strat = ( (sum . map roundPoints) $ toRounds game
                     , (sum . map roundStrategyPoints) $ toRoundStrategies strat
-                    ) 
+                    )
 
 charToPlay :: Char -> Play
 charToPlay x
@@ -38,11 +38,11 @@ charToOutcome x
     | otherwise = undefined
 
 parseRound :: String -> Round
-parseRound (x:' ':y:[]) = (charToPlay x, charToPlay y)
+parseRound [x, ' ', y] = (charToPlay x, charToPlay y)
 parseRound _ = undefined
 
 parseRoundStrategy :: String -> RoundStrategy
-parseRoundStrategy (x:' ':y:[]) = (charToPlay x, charToOutcome y)
+parseRoundStrategy [x, ' ', y] = (charToPlay x, charToOutcome y)
 parseRoundStrategy _ = undefined
 
 invert :: RoundOutcome -> RoundOutcome

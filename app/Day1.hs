@@ -1,6 +1,6 @@
 module Main where
 
-import Data.List
+import Data.List ( sortBy )
 import Data.List.Split
 
 import Utils

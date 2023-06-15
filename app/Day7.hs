@@ -48,7 +48,7 @@ fsSize (Folder _ cs) = sum . map fsSize $ cs
 
 folders :: FSItem -> [FSItem]
 folders (File _ _) = []
-folders f@(Folder _ cs) = f : (concat . map folders $ cs)
+folders f@(Folder _ cs) = f : concatMap folders cs
 
 data CdTarget = Subdir Name | Parent | Root deriving (Show)
 data Command = Cd CdTarget | Ls [FSItem] deriving (Show)
@@ -74,7 +74,7 @@ instance InputParser Command where
                         _              -> undefined
 
 instance InputParser Commands where
-    parseInput = Commands . map parseInput . map strip . groupBy (\_ x -> x /= '$')
+    parseInput = Commands . map (parseInput . strip). groupBy (\_ x -> x /= '$')
         where strip x = let l = length x
                         in  drop 2 . take (l-1) $ x
 
@@ -95,8 +95,8 @@ applyCommand :: Command -> FSZipper -> FSZipper
 applyCommand (Cd Root)          z = fsRoot                               z
 applyCommand (Cd Parent)        z = fsUp                                 z
 applyCommand (Cd (Subdir name)) z = fsDown name                          z
-applyCommand (Ls ([]))          z =                                      z
+applyCommand (Ls [])          z =                                      z
 applyCommand (Ls (c:cs))        z = fsCreateItem c (applyCommand (Ls cs) z)
 
 applyCommands :: Commands -> FSItem
-applyCommands = noZipper . fsRoot . foldl (\z c -> applyCommand c z) emptyZipper . getCommands
+applyCommands = noZipper . fsRoot . foldl (flip applyCommand) emptyZipper . getCommands

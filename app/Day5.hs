@@ -1,11 +1,11 @@
 module Main where
 
 import Data.Char
-import Data.List
+import Data.List ( transpose )
 
 import Utils
 
-data Crate = Crate Char deriving (Show)
+newtype Crate = Crate Char deriving (Show)
 newtype Stack = Stack { getCrates :: [Crate] } deriving (Show)
 newtype Cargo = Cargo { getStacks :: [Stack] } deriving (Show)
 
@@ -15,25 +15,25 @@ newtype Instructions = Instructions { getInstructions :: [Instruction] } derivin
 data Input = Input Cargo Instructions deriving (Show)
 
 instance InputParser Stack where
-    parseInput = Stack . (map Crate)
+    parseInput = Stack . map Crate
 
 instance InputParser Cargo where
     parseInput st = let columns = transpose . lines $ st
-                        filtered = filter (\x -> not ('[' `elem` x || ']' `elem` x || (words x) == [])) columns
+                        filtered = filter (\x -> not ('[' `elem` x || ']' `elem` x || null (words x))) columns
                         normalized = map (filter isAlpha) filtered
-                    in  Cargo . (map parseInput) $ normalized
+                    in  Cargo . map parseInput $ normalized
 
 instance InputParser Instruction where
     parseInput st = let st1  = drop 5 st
-                        num1 = takeWhile (isDigit) st1
+                        num1 = takeWhile isDigit st1
                         st2  = drop (length num1 + 6) st1
-                        num2 = takeWhile (isDigit) st2
+                        num2 = takeWhile isDigit st2
                         st3  = drop (length num2 + 4) st2
                         num3 = st3
                     in Instruction (read num1) (read num2) (read num3)
 
 instance InputParser Instructions where
-    parseInput = Instructions . map (parseInput) . lines
+    parseInput = Instructions . map parseInput . lines
 
 instance InputParser Input where
     parseInput st = case (break (=="") . lines) st of
@@ -97,7 +97,7 @@ performInstruction :: Instruction -> Cargo -> Cargo
 performInstruction (Instruction c orig dest) cargo = iterate (moveCrate orig dest) cargo !! c
 
 performInstruction' :: Instruction -> Cargo -> Cargo
-performInstruction' (Instruction c orig dest) cargo = moveCrateGroup orig dest c cargo
+performInstruction' (Instruction c orig dest) = moveCrateGroup orig dest c
 
 performInstructions :: Instructions -> Cargo -> Cargo
 performInstructions instructions cargo = foldl (flip performInstruction) cargo . getInstructions $ instructions

@@ -1,6 +1,6 @@
 module Main where
 
-import Data.List
+import Data.List ( intersect )
 
 import Utils
 
@@ -19,14 +19,14 @@ instance InputParser ElfPair where
                         _       -> undefined
 
 instance InputParser ElfPairs where
-    parseInput = (ElfPairs . map (parseInput) . lines)
+    parseInput = ElfPairs . map parseInput . lines
 
 main :: IO ()
 main = solvePuzzle 4 solver
 
 solver :: ElfPairs -> (Int, Int)
-solver elfPairs = ( length . filter (fullOverlap) . getPairs $ elfPairs
-                  , length . filter (someOverlap) . getPairs $ elfPairs
+solver elfPairs = ( length . filter fullOverlap . getPairs $ elfPairs
+                  , length . filter someOverlap . getPairs $ elfPairs
                   )
 
 fullyOverlaps :: Assignment -> Assignment -> Bool
@@ -36,5 +36,5 @@ fullOverlap :: ElfPair -> Bool
 fullOverlap (ElfPair x y) = fullyOverlaps x y || fullyOverlaps y x
 
 someOverlap :: ElfPair -> Bool
-someOverlap (ElfPair (Assignment s1 e1) (Assignment s2 e2)) = length intersection > 0
-    where intersection = intersect [s1..e1] [s2..e2]
+someOverlap (ElfPair (Assignment s1 e1) (Assignment s2 e2)) = not (null intersection)
+    where intersection = [s1..e1] `intersect` [s2..e2]

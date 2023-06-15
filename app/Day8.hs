@@ -14,8 +14,8 @@ main :: IO ()
 main = solvePuzzle 8 solver
 
 solver :: Map -> (Int, Int)
-solver m = ( length . filter (flip posVisible m) . getPositions $ m
-           , maximum . map (flip scenicScore m) . getPositions $ m
+solver m = ( length . filter (`posVisible` m) . getPositions $ m
+           , maximum . map (`scenicScore` m) . getPositions $ m
            )
 
 type Pos = (Int, Int)
@@ -32,7 +32,7 @@ move DUp    (x,y) = (x,y+1)
 move DDown  (x,y) = (x,y-1)
 
 getDimensions :: Map -> (Int,Int)
-getDimensions (Map m) = (length $ m !! 0, length m)
+getDimensions (Map m) = (length . head $ m, length m)
 
 getPositions :: Map -> [Pos]
 getPositions m = let (width,height) = getDimensions m
@@ -51,7 +51,7 @@ tryMove dir pos m = let newPos = move dir pos
 path :: Direction -> Pos -> Map -> Path
 path dir pos m = case tryMove dir pos m of
                      Nothing     -> [getPos pos m]
-                     Just newPos -> [getPos pos m] ++ (path dir newPos m)
+                     Just newPos -> getPos pos m : path dir newPos m
 
 paths :: Pos -> Map -> [Path]
 paths pos m = map (\dir -> path dir pos m) [DLeft,DRight,DUp,DDown]
@@ -65,7 +65,7 @@ posVisible pos = any pathVisible . paths pos
 
 visibleTreesInPath :: Path -> Int
 visibleTreesInPath (x:xs) = let (visible,others) = span (<x) xs
-                            in  if length others == 0
+                            in  if null others
                                     then length visible
                                     else length visible + 1
 visibleTreesInPath [] = undefined

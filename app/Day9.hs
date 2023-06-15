@@ -19,14 +19,14 @@ instance InputParser Direction where
 
 instance InputParser Command where
     parseInput st = case words st of
-                        dir:steps:[] -> Command (parseInput dir) (read steps)
+                        [dir, steps] -> Command (parseInput dir) (read steps)
                         _            -> undefined
                         
 instance InputParser Commands where
     parseInput = Commands . map parseInput . lines
 
 type Pos = (Int,Int)
-data Rope = Rope [Pos] deriving (Show)
+newtype Rope = Rope [Pos] deriving (Show)
 type Movement = (Int,Int)
 
 ropeInitialState :: Int -> Rope
@@ -48,7 +48,7 @@ applyDirection :: Direction -> Pos -> Pos
 applyDirection dir = applyMovement (asMovement dir)
 
 moveHead :: Direction -> Rope -> Rope
-moveHead dir (Rope (x:xs)) = Rope ((applyDirection dir x):xs)
+moveHead dir (Rope (x:xs)) = Rope (applyDirection dir x : xs)
 moveHead _ _ = undefined
 
 movementTo :: Pos -> Pos -> Movement
@@ -86,7 +86,7 @@ followHead h t =
 
 adjustTail :: Rope -> Rope
 adjustTail (Rope []) = Rope []
-adjustTail (Rope (x:[])) = Rope (x:[])
+adjustTail (Rope [x]) = Rope [x]
 adjustTail (Rope (x:y:ys)) = Rope (x:newTail)
     where newSegment   = followHead x y
           Rope newTail = adjustTail (Rope (newSegment:ys))
@@ -110,7 +110,7 @@ applyCommands (Commands (c:cs)) rope = applyCommand c rope >>= applyCommands (Co
 
 runCommands :: Int -> Commands -> Writer [Pos] Rope
 runCommands n cmds = do
-    initialState <- return (ropeInitialState n)
+    let initialState = ropeInitialState n
     tell [ropeTail initialState]
     applyCommands cmds initialState
 
