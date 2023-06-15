@@ -32,8 +32,8 @@ sharedItem (Rucksack c1 c2) = head (intersect c1 c2)
 
 itemPriority :: Item -> Priority
 itemPriority x
-    | isLowerCase x = ord x - ord 'a' + 1
-    | isUpperCase x = ord x - ord 'A' + 27
+    | isLower x = ord x - ord 'a' + 1
+    | isUpper x = ord x - ord 'A' + 27
     | otherwise     = 0
 
 elveGroups :: Rucksacks -> [ElveGroup]

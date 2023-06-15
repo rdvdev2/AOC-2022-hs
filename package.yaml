@@ -1,0 +1,68 @@
+name:                AOC2022
+version:             0.1.0.0
+github:              "rdvdev2/AOC-2022-hs"
+license:             GPL3
+author:              "Nara Díaz Viñolas"
+maintainer:          "rdvdev2@gmail.com"
+copyright:           "2023 Nara Díaz Viñolas"
+
+extra-source-files: []
+
+description:         Please see the README on GitHub at <https://github.com/rdvdev2/AOC-2022-hs#readme>
+
+dependencies:
+- base
+
+ghc-options:
+- -Wall
+- -Wcompat
+- -Widentities
+- -Wincomplete-record-updates
+- -Wincomplete-uni-patterns
+- -Wmissing-home-modules
+- -Wpartial-fields
+- -Wredundant-constraints
+- -threaded
+- -rtsopts
+- -with-rtsopts=-N
+
+source-dirs: app
+
+executables:
+  day1:
+    main: Day1.hs
+    other-modules: Utils
+    dependencies: split
+
+  day2:
+    main: Day2.hs
+    other-modules: Utils
+
+  day3:
+    main: Day3.hs
+    other-modules: Utils
+
+  day4:
+    main: Day4.hs
+    other-modules: Utils
+
+  day5:
+    main: Day5.hs
+    other-modules: Utils
+
+  day6:
+    main: Day6.hs
+    other-modules: Utils
+
+  day7:
+    main: Day7.hs
+    other-modules: Utils
+
+  day8:
+    main: Day8.hs
+    other-modules: Utils
+
+  day9:
+    main: Day9.hs
+    other-modules: Utils
+    dependencies: mtl
