@@ -70,6 +70,8 @@ executables:
 tests:
   output-test:
     source-dirs: tests
-    main: OutputTest.hs
-    other-modules: []
-    dependencies: [bytestring, typed-process]
+    main: Spec.hs
+    other-modules: TestUtils
+    dependencies: [HUnit, bytestring, typed-process]
+    ghc-options:
+    - -Wno-type-defaults
