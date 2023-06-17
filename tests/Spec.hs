@@ -3,6 +3,7 @@ module Main where
 import Test.HUnit
 
 import TestUtils
+import Utils
 
 main :: IO ()
 main = runTestTTAndExit tests
@@ -17,6 +18,7 @@ tests = TestList [ TestLabel "Day 1" day1
                  , TestLabel "Day 7" day7
                  , TestLabel "Day 8" day8
                  , TestLabel "Day 9" day9
+                 , TestLabel "Day 10" day10
                  ]
 
 day1 :: Test
@@ -45,3 +47,13 @@ day8 = TestCase $ assertComputedSolutionsEqual 8 1719 590824
 
 day9 :: Test
 day9 = TestCase $ assertComputedSolutionsEqual 9 5779 2331
+
+day10 :: Test
+day10 = TestCase $ assertComputedSolutionsEqual 10 14360 (MultilineString
+    [ "###...##..#..#..##..####.###..####.####."
+    , "#..#.#..#.#.#..#..#.#....#..#.#.......#."
+    , "###..#....##...#..#.###..#..#.###....#.."
+    , "#..#.#.##.#.#..####.#....###..#.....#..."
+    , "#..#.#..#.#.#..#..#.#....#.#..#....#...."
+    , "###...###.#..#.#..#.####.#..#.####.####."
+    ])

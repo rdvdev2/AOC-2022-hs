@@ -1,10 +1,15 @@
-module Utils ( InputParser(parseInput), parseLines, solvePuzzle, solvePuzzle' ) where
+module Utils ( InputParser(parseInput), parseLines, solvePuzzle, solvePuzzle', MultilineString(MultilineString) ) where
 
 class InputParser a where
     parseInput :: String -> a
 
 instance (InputParser a, InputParser b) => InputParser (a,b) where
     parseInput st = (parseInput st, parseInput st)
+
+newtype MultilineString = MultilineString [String]
+
+instance Show MultilineString where
+    show (MultilineString mst) = unlines . ("":) $ mst
 
 parseLines :: (InputParser a) => [String] -> a
 parseLines = parseInput . unlines

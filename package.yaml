@@ -67,11 +67,16 @@ executables:
     other-modules: Utils
     dependencies: mtl
 
+  day10:
+    main: Day10.hs
+    other-modules: Utils
+    dependencies: mtl
+
 tests:
   output-test:
     source-dirs: tests
     main: Spec.hs
-    other-modules: TestUtils
+    other-modules: [TestUtils, Utils]
     dependencies: [HUnit, bytestring, typed-process]
     ghc-options:
     - -Wno-type-defaults
