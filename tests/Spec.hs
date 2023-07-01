@@ -19,6 +19,7 @@ tests = TestList [ TestLabel "Day 1" day1
                  , TestLabel "Day 8" day8
                  , TestLabel "Day 9" day9
                  , TestLabel "Day 10" day10
+                 , TestLabel "Day 11" day11
                  ]
 
 day1 :: Test
@@ -57,3 +58,6 @@ day10 = TestCase $ assertComputedSolutionsEqual 10 14360 (MultilineString
     , "#..#.#..#.#.#..#..#.#....#.#..#....#...."
     , "###...###.#..#.#..#.####.#..#.####.####."
     ])
+
+day11 :: Test
+day11 = TestCase $ assertComputedSolutionsEqual 11 67830 15305381442

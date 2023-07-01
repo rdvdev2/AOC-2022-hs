@@ -72,6 +72,11 @@ executables:
     other-modules: Utils
     dependencies: mtl
 
+  day11:
+    main: Day11.hs
+    other-modules: Utils
+    dependencies: mtl
+
 tests:
   output-test:
     source-dirs: tests
